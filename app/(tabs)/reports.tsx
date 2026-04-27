@@ -1,35 +1,20 @@
 import { Ionicons } from "@expo/vector-icons";
-import { router } from "expo-router";
 import { type ReactNode } from "react";
-import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-export default function ModalScreen() {
+export default function ReportsScreen() {
   return (
     <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.back()} style={styles.backBtn}>
-          <Ionicons name="arrow-back" size={18} color="#F3F7FF" />
-        </TouchableOpacity>
-        <Text style={styles.title}>Tambah Pengeluaran</Text>
+        <Ionicons name="arrow-back" size={18} color="#F3F7FF" />
+        <Text style={styles.title}>Export Data</Text>
       </View>
 
-      <Field label="Tanggal">
+      <Field label="Bulan">
         <View style={styles.input}>
-          <Text style={styles.inputText}>26 Apr 2026</Text>
+          <Text style={styles.inputText}>April 2026</Text>
           <Ionicons name="calendar-outline" size={15} color="#ABB3C1" />
         </View>
-      </Field>
-
-      <Field label="Nama Pengeluaran">
-        <TextInput
-          style={styles.input}
-          value="Lawson - Shopee Food"
-          placeholderTextColor="#6F7784"
-        />
-      </Field>
-
-      <Field label="Nominal">
-        <TextInput style={styles.input} value="16400" placeholderTextColor="#6F7784" />
       </Field>
 
       <Field label="Payment Type">
@@ -39,34 +24,32 @@ export default function ModalScreen() {
         </View>
       </Field>
 
-      <Field label="Kategori">
+      <Field label="Format">
         <View style={styles.input}>
-          <Text style={styles.inputText}>Food</Text>
+          <Text style={styles.inputText}>CSV</Text>
           <Ionicons name="chevron-down" size={15} color="#ABB3C1" />
         </View>
       </Field>
 
-      <Field label="Catatan (opsional)">
-        <TextInput
-          style={[styles.input, styles.noteInput]}
-          value="Contoh: makan siang?"
-          placeholderTextColor="#6F7784"
-        />
-      </Field>
-
-      <TouchableOpacity style={styles.submitBtn} activeOpacity={0.85}>
-        <Text style={styles.submitText}>Simpan</Text>
+      <TouchableOpacity style={styles.exportBtn} activeOpacity={0.85}>
+        <Text style={styles.exportText}>Export CSV</Text>
       </TouchableOpacity>
+
+      <View style={styles.outputCard}>
+        <Text style={styles.outputTitle}>Output CSV (contoh):</Text>
+        <Text style={styles.outputText}>
+          date,nama,paymentType,nominal,type,notes{"\n"}
+          2026-04-25,Toga Pizza,QRIS/payment,100000,{"\n"}
+          QRIS / VA / Debit Card BCA,Lunch{"\n"}
+          2026-04-25,Waring Leo - BK M Pizza,211400,{"\n"}
+          QRIS / VA / Debit Card BCA,Dine-in
+        </Text>
+      </View>
     </ScrollView>
   );
 }
 
-type FieldProps = {
-  label: string;
-  children: ReactNode;
-};
-
-function Field({ label, children }: FieldProps) {
+function Field({ label, children }: { label: string; children: ReactNode }) {
   return (
     <View style={styles.field}>
       <Text style={styles.label}>{label}</Text>
@@ -83,20 +66,13 @@ const styles = StyleSheet.create({
   content: {
     paddingTop: 46,
     paddingHorizontal: 14,
-    paddingBottom: 18,
+    paddingBottom: 20,
   },
   header: {
     flexDirection: "row",
     alignItems: "center",
+    gap: 8,
     marginBottom: 18,
-  },
-  backBtn: {
-    width: 28,
-    height: 28,
-    borderRadius: 14,
-    alignItems: "center",
-    justifyContent: "center",
-    marginRight: 8,
   },
   title: {
     color: "#F5F8FF",
@@ -118,8 +94,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#1E232D",
     paddingHorizontal: 10,
-    color: "#E9EEF9",
-    fontSize: 12,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
@@ -128,22 +102,35 @@ const styles = StyleSheet.create({
     color: "#E9EEF9",
     fontSize: 12,
   },
-  noteInput: {
-    minHeight: 62,
-    textAlignVertical: "top",
-    paddingTop: 10,
-  },
-  submitBtn: {
-    marginTop: 10,
+  exportBtn: {
+    marginTop: 8,
+    marginBottom: 14,
     height: 38,
     borderRadius: 8,
     backgroundColor: "#ECEFF3",
     alignItems: "center",
     justifyContent: "center",
   },
-  submitText: {
+  exportText: {
     color: "#111318",
     fontWeight: "600",
     fontSize: 13,
+  },
+  outputCard: {
+    backgroundColor: "#0F1318",
+    borderWidth: 1,
+    borderColor: "#1D232D",
+    borderRadius: 8,
+    padding: 10,
+  },
+  outputTitle: {
+    color: "#E7EDF7",
+    fontSize: 12,
+    marginBottom: 6,
+  },
+  outputText: {
+    color: "#97A0AF",
+    fontSize: 10,
+    lineHeight: 15,
   },
 });
